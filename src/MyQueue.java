@@ -1,12 +1,18 @@
+import java.util.Arrays;
+
 public class MyQueue <T> implements Queue <T> {
-    private final int INIT_SIZE = 16;
-    private final int CUT_RATE = 4;
-    private Object[] array = new Object[INIT_SIZE];
-    private int size = 0;
-    @Override
-    public void add(T element) {
-        array[size] = element;
-        System.out.println(size +"  "+array[size]);
+    private static int capacity = 10;
+    private Object[] array = new Object[capacity];
+    private Object[] elementsQNewAfterRemove = new Object[capacity];
+    private int size;
+    private void grow() {
+        array = Arrays.copyOf(array, capacity *= 1.5);
+    }
+    public void add(Object value) {
+        if (size == capacity) {
+            grow();
+        }
+        array[size] = value;
         size++;
     }
     @Override
@@ -16,34 +22,31 @@ public class MyQueue <T> implements Queue <T> {
         return (T) array[2];
     }
     @Override
-    public T remove(int index) {
-        for (int i = index; i< size; i++)
-            array[i] = array[i+1];
-        array[size] = null;
+    public T poll() {
+        if (size == 0) {
+            throw new RuntimeException("Nothing to pool! Queue is empty!");
+        }
+        var forReturn = array[0];
+        array[0] = null;
         size--;
-        if (array.length > INIT_SIZE && size < array.length / CUT_RATE)
-            resize(array.length/2);
-        return null;
+        int countNewQueue = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (array[i]!=null) {
+                elementsQNewAfterRemove[countNewQueue] = array[i];
+                countNewQueue++;
+            }
+        }
+        array = elementsQNewAfterRemove.clone();
+        return (T) forReturn;
     }
     @Override
     public int size() {
         return size;
-    }
-    public T poll(){
-        if (size()==0)
-            return null;
-        T element = (T) array[0];
-        remove(0);
-        return element;
     }
     public void clear() {
         for (int i = 0; i<= size; i++)
             array[size] = null;
         size = 0;
     }
-    private void resize(int newLength) {
-        Object[] newArray = new Object[newLength];
-        System.arraycopy(array, 0, newArray, 0, size);
-        array = newArray;
-    }
+
 }
