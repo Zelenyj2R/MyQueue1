@@ -19,8 +19,9 @@ public class MyQueue <T> implements Queue <T> {
     public T peek(int i) {
         if (size()==0)
             return null;
-        return (T) array[2];
+        return (T) array[0];
     }
+
     @Override
     public T poll() {
         if (size == 0) {
@@ -44,8 +45,7 @@ public class MyQueue <T> implements Queue <T> {
         return size;
     }
     public void clear() {
-        for (int i = 0; i<= size; i++)
-            array[size] = null;
+        array = new Object[capacity];
         size = 0;
     }
 
