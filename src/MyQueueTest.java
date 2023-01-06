@@ -5,7 +5,7 @@ public class MyQueueTest {
         myQueue.add("Venus");
         myQueue.add("Earth");
         System.out.println("myQueue " + myQueue.size());
-        System.out.println("myQueue " + myQueue.peek(1));
+        myQueue.peek();
         System.out.println(myQueue.poll());
         myQueue.clear();
         System.out.println("myQueue " + myQueue.size());
