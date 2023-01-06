@@ -3,7 +3,7 @@ import java.util.Arrays;
 public class MyQueue <T> implements Queue <T> {
     private static int capacity = 10;
     private Object[] array = new Object[capacity];
-    private Object[] elementsQNewAfterRemove = new Object[capacity];
+    private Object[] newElementRemove = new Object[capacity];
     private int size;
     private void grow() {
         array = Arrays.copyOf(array, capacity *= 1.5);
@@ -16,12 +16,11 @@ public class MyQueue <T> implements Queue <T> {
         size++;
     }
     @Override
-    public T peek(int i) {
+    public T peek() {
         if (size()==0)
             return null;
         return (T) array[0];
     }
-
     @Override
     public T poll() {
         if (size == 0) {
@@ -33,11 +32,11 @@ public class MyQueue <T> implements Queue <T> {
         int countNewQueue = 0;
         for (int i = 0; i < array.length; i++) {
             if (array[i]!=null) {
-                elementsQNewAfterRemove[countNewQueue] = array[i];
+                newElementRemove[countNewQueue] = array[i];
                 countNewQueue++;
             }
         }
-        array = elementsQNewAfterRemove.clone();
+        array = newElementRemove.clone();
         return (T) forReturn;
     }
     @Override
